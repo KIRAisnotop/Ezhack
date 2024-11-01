@@ -6,15 +6,15 @@ local Window = Rayfield:CreateWindow({
     LoadingSubtitle = "by @KIRA_opYT on youtube",
     ConfigurationSaving = {
         Enabled = true,
-        FolderName = "Ezhack", -- Create a custom folder for your hub/game
+        FolderName = "Ezhack",
         FileName = "Config"
     },
     Discord = {
         Enabled = true,
-        Invite = "zWdze4NuBB", -- The Discord invite code
+        Invite = "zWdze4NuBB",
         RememberJoins = true
     },
-    KeySystem = true, -- Set this to true to use our key system
+    KeySystem = true,
     KeySettings = {
         Title = "Untitled",
         Subtitle = "Key System",
@@ -22,42 +22,34 @@ local Window = Rayfield:CreateWindow({
         FileName = "Key",
         SaveKey = true,
         GrabKeyFromSite = true,
-        Key = {"https://pastebin.com/raw/xjn9UqJz"} -- List of keys
+        Key = {"https://pastebin.com/raw/xjn9UqJz"}
     }
 })
 
 local MainTab = Window:CreateTab("Main", 4483362458)
 
--- Kill self button
+-- Kill Self Button
 MainTab:CreateButton({
     Name = "Kill Self",
     Callback = function()
         local player = game.Players.LocalPlayer
         if player.Character and player.Character:FindFirstChild("Humanoid") then
             player.Character.Humanoid.Health = 0
+        else
+            warn("Character or Humanoid not found")
         end
     end,
 })
 
--- Testing button
-MainTab:CreateButton({
-    Name = "Testing (press F9)",
-    Callback = function()
-        print("Testing")
-        local player = game.Players.LocalPlayer
-        if player.Character and player.Character:FindFirstChild("Humanoid") then
-            player.Character.Humanoid.Health = 0
-        end
-    end,
-})
-
--- Fly toggle
+-- Fly Toggle
 local flying = false
 local bodyVelocity
 
 local function startFly()
     local player = game.Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
+    character:WaitForChild("HumanoidRootPart") -- Wait for HumanoidRootPart
+
     local userInputService = game:GetService("UserInputService")
 
     bodyVelocity = Instance.new("BodyVelocity")
@@ -97,4 +89,48 @@ MainTab:CreateToggle({
     Name = "Fly",
     CurrentValue = false,
     Flag = "Toggle1",
-    Callback = funct
+    Callback = function(Value)
+        flying = Value
+        if flying then
+            startFly()
+        elseif bodyVelocity then
+            bodyVelocity:Destroy()
+        end
+    end,
+})
+
+-- Speed Slider
+MainTab:CreateSlider({
+    Name = "Speed Hacks",
+    Range = {16, 300},
+    Increment = 1,
+    Suffix = "Bananas",
+    CurrentValue = 16,
+    Flag = "SliderSpeed",
+    Callback = function(Value)
+        local player = game.Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+        local humanoid = character:WaitForChild("Humanoid")
+
+        humanoid.WalkSpeed = Value -- Set your desired speed value here
+        print("Speed set to " .. Value) -- Debugging output
+    end,
+})
+
+-- Jump Power Slider
+MainTab:CreateSlider({
+    Name = "Jump Power",
+    Range = {50, 200},
+    Increment = 1,
+    Suffix = "Bananas",
+    CurrentValue = 50,
+    Flag = "SliderJumpPower",
+    Callback = function(Value)
+        local player = game.Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+        local humanoid = character:WaitForChild("Humanoid")
+
+        humanoid.JumpPower = Value -- Set your desired jump power value here
+        print("Jump power set to " .. Value) -- Debugging output
+    end,
+})
