@@ -28,28 +28,40 @@ local Window = Rayfield:CreateWindow({
 
 local MainTab = Window:CreateTab("Main", 4483362458)
 
--- Kill Self Button
+-- Kill self button
 MainTab:CreateButton({
-    Name = "Kill Self",
+    Name = "kill self",
     Callback = function()
+        local Players = game:GetService("Players")
+        Players.PlayerAdded:Connect(function(player)
+            player.CharacterAdded:Connect(function(character)
+                if character:FindFirstChild("Humanoid") then
+                    character.Humanoid.Health = 0
+                end
+            end)
+        end)
+    end,
+})
+
+-- Testing button
+MainTab:CreateButton({
+    Name = "Testing(press F9)",
+    Callback = function()
+        print("testing")
         local player = game.Players.LocalPlayer
         if player.Character and player.Character:FindFirstChild("Humanoid") then
             player.Character.Humanoid.Health = 0
-        else
-            warn("Character or Humanoid not found")
         end
     end,
 })
 
--- Fly Toggle
+-- Fly toggle
 local flying = false
 local bodyVelocity
 
 local function startFly()
     local player = game.Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
-    character:WaitForChild("HumanoidRootPart") -- Wait for HumanoidRootPart
-
     local userInputService = game:GetService("UserInputService")
 
     bodyVelocity = Instance.new("BodyVelocity")
@@ -99,38 +111,34 @@ MainTab:CreateToggle({
     end,
 })
 
--- Speed Slider
+-- Speed slider
 MainTab:CreateSlider({
-    Name = "Speed Hacks",
+    Name = "Speed hacks",
     Range = {16, 300},
     Increment = 1,
-    Suffix = "Bananas",
+    Suffix = "Stud",
     CurrentValue = 16,
-    Flag = "SliderSpeed",
+    Flag = "Slider1",
     Callback = function(Value)
         local player = game.Players.LocalPlayer
         local character = player.Character or player.CharacterAdded:Wait()
         local humanoid = character:WaitForChild("Humanoid")
-
-        humanoid.WalkSpeed = Value -- Set your desired speed value here
-        print("Speed set to " .. Value) -- Debugging output
+        humanoid.WalkSpeed = Value
     end,
 })
 
--- Jump Power Slider
+-- Jump Power slider
 MainTab:CreateSlider({
     Name = "Jump Power",
-    Range = {50, 200},
+    Range = {50, 300}, -- Adjust the range as needed
     Increment = 1,
-    Suffix = "Bananas",
+    Suffix = "Stud",
     CurrentValue = 50,
-    Flag = "SliderJumpPower",
+    Flag = "Slider2", -- Ensure this flag is unique
     Callback = function(Value)
         local player = game.Players.LocalPlayer
         local character = player.Character or player.CharacterAdded:Wait()
         local humanoid = character:WaitForChild("Humanoid")
-
-        humanoid.JumpPower = Value -- Set your desired jump power value here
-        print("Jump power set to " .. Value) -- Debugging output
+        humanoid.JumpPower = Value
     end,
 })
