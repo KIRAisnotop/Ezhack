@@ -1,7 +1,7 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "Ez hack",
+    Name = "Ez hack V1",
     LoadingTitle = "Ez hack Loading",
     LoadingSubtitle = "by @KIRA_opYT on youtube",
     ConfigurationSaving = {
@@ -16,7 +16,7 @@ local Window = Rayfield:CreateWindow({
     },
     KeySystem = true,
     KeySettings = {
-        Title = "Untitled",
+        Title = "Key",
         Subtitle = "Key System",
         Note = "Join the discord for the key!",
         FileName = "Key",
