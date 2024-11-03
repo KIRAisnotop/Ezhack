@@ -1,7 +1,7 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "Ez hack V2",
+    Name = "Ez hack V3",
     LoadingTitle = "Ez hack Loading",
     LoadingSubtitle = "by @KIRA_opYT on YouTube",
     ConfigurationSaving = {
